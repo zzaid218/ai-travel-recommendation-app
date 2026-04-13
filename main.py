@@ -1,18 +1,22 @@
-import pandas as pd
-from search import find_similar
-from embeddings import get_embedding
-
-df = pd.read_csv("data.csv")
-
-df["embedding"] = df["description"].apply(lambda x: get_embedding(x).flatten())
+from search_db import search
 
 while True:
-    query = input("\nEnter what kind of place you want (or 'exit'): ")
+    query = input("\nEnter travel idea (or exit): ")
 
     if query.lower() == "exit":
         break
 
-    results = find_similar(query, df)
+    country = input("Filter by country (press enter to skip): ")
+    category = input("Filter by category (press enter to skip): ")
+
+    country = country if country.strip() else None
+    category = category if category.strip() else None
+
+    results = search(query, country, category)
+
+    if not results:
+        print("\nSorry, no matching destinations found.")
+        continue
 
     print("\nTop recommendations:")
     for name, score in results:
