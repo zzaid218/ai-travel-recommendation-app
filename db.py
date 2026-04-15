@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine
+from dotenv import load_dotenv
+import os
 
-DATABASE_URL = "postgresql+psycopg2://postgres:123456@localhost:5432/travel_rec_db"
+load_dotenv()
 
-engine = create_engine(DATABASE_URL)
+DATABASE_URL = os.getenv("DATABASE_URL")
